@@ -13,6 +13,12 @@ class RagPipeline:
 
     def run(self, query: str):
         query_vector = self.embedder.embed(query)
-        context = self.pinecone.query(query_vector)
+        result  = self.pinecone.query(query_vector)
+        context = [
+            match["metadata"]["text"]
+            for match in result.get("matches", [])
+            if "metadata" in match and "text" in match["metadata"]
+        ]
+        
         answer = self.groq.ask(query, context)
         return answer, context

@@ -2,7 +2,8 @@ fastapi
 uvicorn[standard]
 pydantic
 python-dotenv
-pinecone
+pinecone==5.0.0
 requests
 groq
 sentence-transformers
+pdfplumber

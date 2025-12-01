@@ -15,7 +15,7 @@ class GroqService:
         context_text = "\n\n".join(context)
 
         prompt = f"""
-Eres un chatbot especializado en hablar sobre el CV de Juan.
+Eres un chatbot especializado en hablar sobre el CV proporcionado.
 Usa solo la siguiente información del CV para responder.
 
 Contexto:
@@ -28,10 +28,10 @@ Respuesta:
 """
 
         response = self.client.chat.completions.create(
-            model=settings.GROQ_MODEL,
+            model=GROQ_MODEL,
             messages=[{"role": "user", "content": prompt}]
         )
-        response_text = response.choices[0].message["content"]
+        response_text = response.choices[0].message.content
         response_text = self.__clean_answer(response_text)
 
         return response_text

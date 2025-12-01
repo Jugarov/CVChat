@@ -10,6 +10,8 @@ services:
       - backend/.env
     networks:
       - rag-net
+    volumes:
+      - ./RAG_documents:/app/RAG_documents
 
   frontend:
     build: ./frontend
