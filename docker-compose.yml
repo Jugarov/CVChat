@@ -14,7 +14,10 @@ services:
       - ./RAG_documents:/app/RAG_documents
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000/api/ask
     container_name: rag-frontend
     ports:
       - "3000:80"
