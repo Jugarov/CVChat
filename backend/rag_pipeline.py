@@ -6,7 +6,8 @@ import os
 EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL")
 
 class RagPipeline:
-    def __init__(self):
+    def __init__(self, namespace="default"):
+        self.namespace = namespace
         self.embedder = EmbeddingService(EMBEDDING_MODEL)
         self.pinecone = PineconeService()
         self.groq = GroqService()

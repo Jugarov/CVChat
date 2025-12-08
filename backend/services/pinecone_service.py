@@ -6,7 +6,8 @@ PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_INDEX = os.getenv("PINECONE_INDEX")
 
 class PineconeService:
-    def __init__(self):
+    def __init__(self, namespace="default"):
+        self.namespace = namespace
         self.pc = Pinecone(api_key=PINECONE_API_KEY)
 
         try:
@@ -43,6 +44,7 @@ class PineconeService:
 
     def query(self, vector, top_k=5):
         result = self.index.query(
+            namespace=self.namespace,
             vector=vector,
             top_k=top_k,
             include_metadata=True

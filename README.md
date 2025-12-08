@@ -14,6 +14,22 @@ CVChat es una aplicación tipo “chatbot + RAG (Retrieval-Augmented Generation)
 
 Frontend + Backend combinando modelos de embeddings de 768 dimensiones (`all-mpnet-base-v2` para representar los prompts y `llama-3.3-70b-versatile` en Groq para generar las respuestas).
 
+## Sistema multiagente
+
+Para tratar más precisamente con cada CV que se proporcione al sistema, se encapsula la estructura mencionada anteriormente en "agentes especializados" capaces de capturar contexto más específico de cada uno de los documentos proporcionados.
+
+Luego un agente coordinador en un nivel superior reúne todos los fragmentos de contexto desde la consulta realizada por el usuario y decide cuáles son los agentes a los que se les debe hacer consultas más fragmentadas y específicas.
+
+El agente coordinador tiene dos modos de funcionamiento:
+
+1. En caso de que se solicite información de una persona en particular, el solo se consultará al agente de ese documento en específico para obtener la información requerida. En caso de que se solicite información particular pero no se especifique de quién buscará la respuesta en el documento marcado *por defecto*.
+
+2. En caso de consultas genéricas o comparativas el agente propagará la pregunta a todos los agentes necesarios y unirá los fragmentos de contexto para dar una respuesta más informada de cada uno de los documentos involucrados.
+
+El siguiente esquema ilustra cómo es el flujo de información en el sistema:
+
+![Flow](./multiagent.png)
+
 ## Estructura del repositorio
 
 Entre los principales directorios y archivos se encuentran: 
