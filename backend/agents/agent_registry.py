@@ -1,4 +1,4 @@
-from agent import CVAgent
+from agents.agent import CVAgent
 
 class AgentRegistry:
     def __init__(self):

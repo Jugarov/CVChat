@@ -10,15 +10,22 @@ registry = AgentRegistry()
 
 
 registry.register(
-    cv_id="juan",
+    cv_id="Juan",
     summary="Data Scientist con experiencia en NLP, RAG y LLMs.",
-    namespace="cv_juan"
+    namespace="cv-juan",
+    is_default=True
 )
 
 registry.register(
-    cv_id="juan",
-    summary="Data Scientist con experiencia en NLP, RAG y LLMs.",
-    namespace="cv_juan"
+    cv_id="Rodrigo",
+    summary="Data Engineer con experiencia en Databricks.",
+    namespace="cv-rodri"
+)
+
+registry.register(
+    cv_id="Danilo",
+    summary="Software Engineer con experiencia en desarrollo fullstack.",
+    namespace="cv-dani"
 )
 
 router = RouterAgent(registry)

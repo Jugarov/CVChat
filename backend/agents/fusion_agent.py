@@ -6,7 +6,7 @@ GROQ_API_KEY=os.getenv("GROQ_API_KEY")
 
 class FusionAgent:
     def __init__(self):
-        self.client = Groq(GROQ_API_KEY)
+        self.client = Groq(api_key=GROQ_API_KEY)
 
     def fuse(self, question, results):
         formatted = "\n".join(
