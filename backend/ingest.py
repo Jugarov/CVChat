@@ -47,7 +47,6 @@ def ingest_documents():
         if not os.path.isfile(path):
             continue
 
-        # obtener nombre base sin extensión
         base = os.path.splitext(filename)[0]
         namespace = f"cv-{base.lower()}"
 
@@ -61,15 +60,21 @@ def ingest_documents():
         chunks = chunk_text(text)
         vecs = model.encode(chunks)
 
-        pinecone.namespace = namespace
-        pinecone.upsert_vectors(
-            texts=chunks,
-            embeddings=vecs
-        )
+        # construir items en formato Pinecone moderno
+        items = []
+        for i, (chunk, vec) in enumerate(zip(chunks, vecs)):
+            items.append({
+                "id": f"{namespace}-{i}",
+                "values": vec.tolist(),
+                "metadata": {"text": chunk}
+            })
+
+        pinecone.upsert_vectors(namespace, items)
 
         print(f"Ingestado {filename} ({len(chunks)} chunks) en {namespace}")
 
     print("\nIngestión completa")
+
 
 if __name__ == "__main__":
     ingest_documents()

@@ -39,13 +39,28 @@ Reglas:
 1. Si la pregunta no menciona persona explícita ni tiene intención comparativa:
    → usa el agente con "is_default": true.
 
-2. Si menciona claramente una persona, elige SOLO ese agente.
+2. Si menciona claramente una persona, elige SOLO ese agente. Si la pregunta contiene alguno de los nombres o alias listados para un agente,
+elige ese agente.
+
+Los nombres y alias son EXACTOS y debes usarlos para asignar el agente.
 
 3. Si es una pregunta comparativa, clasificatoria o que evalúa a múltiples personas:
    → usa TODOS los agentes relevantes.
 
 4. Si menciona habilidades o características que deben buscarse entre varios CVs:
    → usa modo "multi".
+
+Ejemplo:
+Pregunta: "Qué sabe Rodrigo?"
+Respuesta: {{ "mode": "single", "targets": ["cv-rodri"] }}
+
+Ejemplo:
+Pregunta: "Comparar a Juan y Rodrigo"
+Respuesta: {{ "mode": "multi", "targets": ["cv-juan", "cv-rodri"] }}
+
+Ejemplo:
+Pregunta: "Quiénes viven en Argentina?"
+Respuesta: {{ "mode": "multi", "targets": *incluir todos los agentes en formato lista* }}
 
 Devuelve únicamente el JSON, sin texto adicional.
 """

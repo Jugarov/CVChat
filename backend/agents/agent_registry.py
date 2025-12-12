@@ -4,8 +4,9 @@ class AgentRegistry:
     def __init__(self):
         self.agents = {}
 
-    def register(self, cv_id, summary, namespace, is_default=False):
+    def register(self, aliases, cv_id, summary, namespace, is_default=False):
         self.agents[cv_id] = {
+            "aliases": aliases,
             "agent": CVAgent(cv_id, namespace),
             "summary": summary,
             "is_default": is_default

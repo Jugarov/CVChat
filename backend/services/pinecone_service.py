@@ -3,11 +3,11 @@ from pinecone.core.openapi.shared.exceptions import NotFoundException
 import os
 
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
+PINECONE_DEFAULT_INDEX = os.getenv("PINECONE_DEFAULT_INDEX")
 INDEXES = ["cv-juan", "cv-rodri", "cv-dani"]
 
-
 class PineconeService:
-    def __init__(self, namespace="default"):
+    def __init__(self, namespace=PINECONE_DEFAULT_INDEX):
         self.namespace = namespace
         self.pc = Pinecone(api_key=PINECONE_API_KEY)
 
@@ -36,31 +36,30 @@ class PineconeService:
             # Guardar referencia
             self.indexes[index_name] = index
 
-    def _get_index(self):
+    def _get_index(self, namespace):
         # El namespace determina el índice REAL donde insertar/buscar
-        if self.namespace not in self.indexes:
-            raise ValueError(f"No existe índice para namespace '{self.namespace}'")
-        return self.indexes[self.namespace]
+        if namespace not in self.indexes:
+            raise ValueError(f"No existe índice '{namespace}' para namespace '{namespace}'")
 
-    def upsert_vectors(self, texts, embeddings):
-        index = self._get_index()
+        return self.indexes[namespace]
 
-        items = []
-        for i, (t, e) in enumerate(zip(texts, embeddings)):
-            items.append({
-                "id": f"chunk-{i}",
-                "values": e.tolist(),
-                "metadata": {"text": t}
-            })
+    def upsert_vectors(self, namespace, items):
+        index = self._get_index(namespace)
+        return index.upsert(
+            vectors=items,
+            namespace=namespace
+        )
 
-        index.upsert(vectors=items, namespace=self.namespace)
+    def query(self, vector, namespace=None, top_k=5):
+        # usar SIEMPRE el namespace del CVAgent
+        ns = namespace if namespace else self.namespace
+        index = self._get_index(ns)
 
-    def query(self, vector, top_k=5):
-        index = self._get_index()
-
-        return index.query(
-            namespace=self.namespace,
+        result = index.query(
             vector=vector,
             top_k=top_k,
+            namespace=ns,
             include_metadata=True
         )
+
+        return result

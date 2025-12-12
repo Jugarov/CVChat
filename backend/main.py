@@ -11,6 +11,7 @@ registry = AgentRegistry()
 
 registry.register(
     cv_id="Juan",
+    aliases= ["juan ignacio garcia", "juan garcia", "juan"],
     summary="Data Scientist con experiencia en NLP, RAG y LLMs.",
     namespace="cv-juan",
     is_default=True
@@ -18,12 +19,14 @@ registry.register(
 
 registry.register(
     cv_id="Rodrigo",
+    aliases= ["rodrigo mesa", "rodrigo mesa marchi", "rodrigo", "rodri"],
     summary="Data Engineer con experiencia en Databricks.",
     namespace="cv-rodri"
 )
 
 registry.register(
     cv_id="Danilo",
+    aliases= ["danilo reitano", "danilo", "dani"],
     summary="Software Engineer con experiencia en desarrollo fullstack.",
     namespace="cv-dani"
 )
